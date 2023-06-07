@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const url = 'mongodb://127.0.0.1:27017/profile-settings'
 const port = 3000;
 const cors = require('cors');
-const { registerHandler, loginHandler } = require('./userHandler');
+const { registerHandler, loginHandler, getUser } = require('./userHandler');
 initDatabase().then(() => console.log('Database working!'))
 
 const server = http.createServer(async (req, res) => {
@@ -54,6 +54,12 @@ const server = http.createServer(async (req, res) => {
                 res.statusCode = 400
                 res.end(JSON.stringify({ error: true, errorMessage: error.message }))
             }
+        });
+    } else if(url === '/profile' && method === 'POST'){
+        req.on('end', async () => {
+            userData = JSON.parse(body);
+            const user = await getUser(userData.token)
+            res.end(JSON.stringify(user));
         });
     } else {
         res.writeHead(404, { 'Content-Type': 'text/plain' });

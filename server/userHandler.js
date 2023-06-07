@@ -33,6 +33,10 @@ async function loginHandler(data){
         return error;
     }
 }
+async function getUser(token){
+    let user = validateToken(token)
+    return await User.findOne({email: user.email});
+}
 const createAccessToken = (user) => {
     const payload = {
         _id: user._id,
@@ -45,8 +49,16 @@ const createAccessToken = (user) => {
         accessToken
     }
 }
-
+const validateToken = (token) => {
+    try {
+        const data = jwt.verify(token, 'danjdm1qd192jwq')
+        return data
+    } catch (error) {
+        throw new Error('Invalid cookie token!')
+    }
+}
 module.exports = {
     registerHandler,
     loginHandler,
+    getUser
 }
