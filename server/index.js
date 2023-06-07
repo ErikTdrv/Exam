@@ -30,25 +30,29 @@ const server = http.createServer(async (req, res) => {
             req.on('end', async () => {
                 userData = JSON.parse(body);
                 user = await registerHandler(userData)
-                res.end(JSON.stringify(user));
+                if (user.accessToken) {
+                    res.end(JSON.stringify({ user, error: false }));
+                } else {
+                    res.end(JSON.stringify({ error: true, errorMessage: user.message }))
+                }
             });
         } catch (error) {
-            console.log(error.message)
-            res.end(error.message)
+            res.statusCode = 400
+            console.log('here')
         }
     } else if (url === '/login' && method === 'POST') {
         req.on('end', async () => {
             try {
                 userData = JSON.parse(body);
                 user = await loginHandler(userData)
-                if(user.accessToken){
-                    res.end(JSON.stringify({user, error: false}));
-                }else {
+                if (user.accessToken) {
+                    res.end(JSON.stringify({ user, error: false }));
+                } else {
                     throw new Error(user)
                 }
             } catch (error) {
                 res.statusCode = 400
-                res.end(JSON.stringify({error: true, errorMessage: error.message}))
+                res.end(JSON.stringify({ error: true, errorMessage: error.message }))
             }
         });
     } else {

@@ -25,7 +25,12 @@ document.getElementById('register-form').addEventListener('submit', async (e) =>
         body: jsonUserData
     })
     const data = await response.json();
-    localStorage.setItem('token', data.accessToken)
-    window.location.href = '/index.html';
+    if(!data.error){
+        localStorage.setItem('token', data.user.accessToken)
+        window.location.href = '/index.html';
+    }else {
+        console.log(data)
+        errorElement.textContent = data.errorMessage
+    }
 
 })

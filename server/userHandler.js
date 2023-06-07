@@ -11,11 +11,9 @@ async function registerHandler(data){
         }else if(existingEmail){
             throw new Error('Email already exists!')
         }
-        console.log('here', data)
         const user = await User.create({username: data.username, email: data.email, password: data.password});
         return await createAccessToken(user);
     } catch (error) {
-        console.log(error)
         return error;
     }
 }
