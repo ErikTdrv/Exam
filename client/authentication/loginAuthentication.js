@@ -20,7 +20,7 @@ document.getElementById('login-form').addEventListener('submit', async (e) => {
     const data = await response.json();
     if(!data.error){
         localStorage.setItem('token', data.user.accessToken)
-        window.location.href = '/index.html';
+        window.location.href = '/client/index.html';
     }else {
         errorSpanElement.textContent = data.errorMessage
     }

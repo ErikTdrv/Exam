@@ -26,8 +26,10 @@ const server = http.createServer(async (req, res) => {
     });
     let userData;
     if (url === '/register' && method === 'POST') {
+        console.log('phase1')
         try {
             req.on('end', async () => {
+                console.log('phase2')
                 userData = JSON.parse(body);
                 user = await registerHandler(userData)
                 if (user.accessToken) {
@@ -38,7 +40,7 @@ const server = http.createServer(async (req, res) => {
             });
         } catch (error) {
             res.statusCode = 400
-            console.log('here')
+            console.log(error)
         }
     } else if (url === '/login' && method === 'POST') {
         req.on('end', async () => {
@@ -55,7 +57,7 @@ const server = http.createServer(async (req, res) => {
                 res.end(JSON.stringify({ error: true, errorMessage: error.message }))
             }
         });
-    } else if(url === '/profile' && method === 'POST'){
+    } else if (url === '/profile' && method === 'POST') {
         req.on('end', async () => {
             userData = JSON.parse(body);
             const user = await getUser(userData.token)
