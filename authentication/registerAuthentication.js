@@ -11,7 +11,7 @@ document.getElementById('register-form').addEventListener('submit', async (e) =>
         userData[key] = value;
     })
     if(userData['g-recaptcha-response'] == ''){
-        errorElement.textContent = 'Captcha required!'
+        errorElement.textContent = 'Captcha required!!'
         return;
     }else {
         errorElement.textContent = ''
