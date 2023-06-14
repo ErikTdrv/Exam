@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 
 async function registerHandler(data){
+    console.log('phase3')
     try {
         const existingUsername = await User.findOne({username: data.username});
         const existingEmail = await User.findOne({email: data.email});

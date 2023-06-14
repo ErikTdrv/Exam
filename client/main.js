@@ -4,7 +4,6 @@ const usernameElement = document.querySelector('.username')
 const emailElement = document.querySelector('.email')
 if (localStorage.getItem('token')) {
     navElement.style.display = 'none'
-    console.log('here')
     let spanElement = document.createElement('span');
     spanElement.textContent = 'Welcome to the application!'
     let buttonElement = document.createElement('button');
